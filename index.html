@@ -87,7 +87,7 @@
 		</div>
 		<script>
 
-		var index;
+		var paintings;
 		var current;
 		var img = document.getElementById('img');
 		var container = document.getElementById('container');
@@ -99,9 +99,10 @@
 			img.classList.add('is-clickable');
 		}
 
-		fetch('paintings/index.json').then(rsp => rsp.json()).then(_index => {
-			index = _index;
+		fetch('paintings/index.json').then(rsp => rsp.json()).then(rsp => {
+			paintings = rsp;
 			update();
+			setInterval(update, 500);
 		});
 
 		function update() {
@@ -110,7 +111,7 @@
 				return;
 			}
 			current = num;
-			let caption = index[num].caption;
+			let caption = paintings[num].caption;
 			document.getElementById('credit').innerHTML = `
 				Mark Rothko. ${caption}.
 				Image: <a href="https://www.markrothko.org/">markrothko.org</a>
@@ -119,8 +120,6 @@
 				<img src="/paintings/${num}.jpg" alt="Image of ${caption}">
 			`;
 		}
-
-		setInterval(update, 500);
 
 		</script>
 	</body>
