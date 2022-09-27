@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width">
+		<link rel="shortcut icon" type="image/png" href="/favicon.png">
+		<meta property="og:title" content="One Rothko per hour">
+		<meta property="og:description" content="Twenty four Mark Rothko paintings per day, one at a time.">
+		<meta property="og:image" content="https://onerothkoperhour.com/facebook.jpg">
+		<meta property="og:url" content="https://onerothkoperhour.com/">
+		<meta property="og:type" content="website">
+		<meta name="twitter:card" content="summary_large_image">
+		<meta name="twitter:title" content="One Rothko per hour">
+		<meta name="twitter:description" content="Twenty four Mark Rothko paintings per day, one at a time.">
+		<meta name="twitter:image" content="https://onerothkoperhour.com/twitter.jpg">
+		<title>One Rothko per hour</title>
+		<style>
+
+		body {
+			margin: 0;
+		}
+
+		::backdrop {
+			background-color: #fff;
+		}
+
+		img {
+			box-sizing: border-box;
+			width: 100%;
+			height: auto;
+			padding: 15px;
+			max-height: 100vh;
+			vertical-align: top;
+		}
+
+		.is-clickable {
+			cursor: pointer;
+		}
+
+		#container {
+			position: relative;
+			width: 100vw;
+			height: 100vh;
+		}
+
+		#credit {
+			padding: 0 15px 15px 15px;
+		}
+
+		#credit, a {
+			color: #999;
+			font: 14px system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+		}
+
+		a:hover {
+			color: #000;
+		}
+
+		@media (min-width: 480px) {
+
+			#credit {
+				position: absolute;
+				bottom: 0;
+				right: 0;
+			}
+
+			img {
+				position: absolute;
+				top: 5vh;
+				left: 50%;
+				transform: translateX(-50%);
+				height: 90vh;
+				width: auto;
+				margin: 0 auto;
+			}
+
+		}
+
+		</style>
+	</head>
+	<body>
+		<div id="container">
+			<div id="img"></div>
+			<div id="credit"></div>
+		</div>
+		<script>
+
+		var index;
+		var img = document.getElementById('img');
+		var container = document.getElementById('container');
+
+		if (img.requestFullscreen) {
+			img.addEventListener('click', () => {
+				container.requestFullscreen();
+			});
+			img.classList.add('is-clickable');
+		}
+
+		fetch('paintings/index.json').then(rsp => rsp.json()).then(_index => {
+			index = _index;
+			update();
+		});
+
+		function update() {
+			let num = (new Date()).getHours();
+			let caption = index[num].caption;
+			document.getElementById('credit').innerHTML = `
+				Mark Rothko. ${caption}.
+				Image: <a href="https://www.markrothko.org/">markrothko.org</a>
+			`;
+			img.innerHTML = `
+				<img src="/paintings/${num}.jpg" alt="Image of ${caption}">
+			`;
+		}
+
+		setInterval(update, 60 * 1000);
+
+		</script>
+	</body>
+</html>
