@@ -1,5 +1,8 @@
 <?php
 
+// Load HTML with paintings on it then save the biggest version of the image
+// possible. Save an index JSON file while we're at it.
+
 require "vendor/autoload.php";
 use PHPHtmlParser\Dom;
 

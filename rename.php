@@ -1,5 +1,8 @@
 <?php
 
+// Sort the paintings by image dimensions, biggest files first. Then rename the
+// first 24 to simpler numeric filenames like 1.jpg and rewrite the index.json.
+
 $json = file_get_contents('paintings/index.json');
 $index = json_decode($json);
 usort($index, function($a, $b) {
