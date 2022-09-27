@@ -1,3 +1,4 @@
 /vendor
 /paintings/*.jpg
 /paintings/index.json
+.DS_Store
